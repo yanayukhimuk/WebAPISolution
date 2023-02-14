@@ -6,22 +6,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebAPIProject.Models;
 
-[Index("CategoryName", Name = "CategoryName")]
-public partial class Category
+[Keyless]
+public partial class SalesByCategory
 {
-    [Key]
     [Column("CategoryID")]
     public int CategoryId { get; set; }
 
     [StringLength(15)]
     public string CategoryName { get; set; } = null!;
 
-    [Column(TypeName = "ntext")]
-    public string? Description { get; set; }
+    [StringLength(40)]
+    public string ProductName { get; set; } = null!;
 
-    [Column(TypeName = "image")]
-    public byte[]? Picture { get; set; }
-
-    [InverseProperty("Category")]
-    public virtual ICollection<Product> Products { get; } = new List<Product>();
+    [Column(TypeName = "money")]
+    public decimal? ProductSales { get; set; }
 }

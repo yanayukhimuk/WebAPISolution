@@ -6,16 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebAPIProject.Models;
 
-[Index("City", Name = "City")]
 [Index("CompanyName", Name = "CompanyName")]
 [Index("PostalCode", Name = "PostalCode")]
-[Index("Region", Name = "Region")]
-public partial class Customer
+public partial class Supplier
 {
     [Key]
-    [Column("CustomerID")]
-    [StringLength(5)]
-    public string CustomerId { get; set; } = null!;
+    [Column("SupplierID")]
+    public int SupplierId { get; set; }
 
     [StringLength(40)]
     public string CompanyName { get; set; } = null!;
@@ -47,10 +44,9 @@ public partial class Customer
     [StringLength(24)]
     public string? Fax { get; set; }
 
-    [InverseProperty("Customer")]
-    public virtual ICollection<Order> Orders { get; } = new List<Order>();
+    [Column(TypeName = "ntext")]
+    public string? HomePage { get; set; }
 
-    [ForeignKey("CustomerId")]
-    [InverseProperty("Customers")]
-    public virtual ICollection<CustomerDemographic> CustomerTypes { get; } = new List<CustomerDemographic>();
+    [InverseProperty("Supplier")]
+    public virtual ICollection<Product> Products { get; } = new List<Product>();
 }

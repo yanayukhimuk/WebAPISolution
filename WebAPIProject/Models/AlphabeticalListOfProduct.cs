@@ -6,14 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebAPIProject.Models;
 
-[Index("CategoryId", Name = "CategoriesProducts")]
-[Index("CategoryId", Name = "CategoryID")]
-[Index("ProductName", Name = "ProductName")]
-[Index("SupplierId", Name = "SupplierID")]
-[Index("SupplierId", Name = "SuppliersProducts")]
-public partial class Product
+[Keyless]
+public partial class AlphabeticalListOfProduct
 {
-    [Key]
     [Column("ProductID")]
     public int ProductId { get; set; }
 
@@ -40,14 +35,6 @@ public partial class Product
 
     public bool Discontinued { get; set; }
 
-    [ForeignKey("CategoryId")]
-    [InverseProperty("Products")]
-    public virtual Category? Category { get; set; }
-
-    [InverseProperty("Product")]
-    public virtual ICollection<OrderDetail> OrderDetails { get; } = new List<OrderDetail>();
-
-    [ForeignKey("SupplierId")]
-    [InverseProperty("Products")]
-    public virtual Supplier? Supplier { get; set; }
+    [StringLength(15)]
+    public string CategoryName { get; set; } = null!;
 }

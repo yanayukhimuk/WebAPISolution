@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using WebAPIProject.Models;
 
 namespace WebAPIProject
 {
@@ -12,8 +11,6 @@ namespace WebAPIProject
             // Add services to the container.
 
             builder.Services.AddControllers();
-            builder.Services.AddDbContext<ShopContext>(opt =>
-                opt.UseSqlServer());
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
