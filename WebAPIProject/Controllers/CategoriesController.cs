@@ -23,12 +23,22 @@ namespace WebAPIProject.Controllers
 
         // GET: api/Categories
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Category>>> GetCategories([FromQuery] QueryParameters queryParams)
+        public async Task<ActionResult<IEnumerable<Category>>> GetCategories([FromQuery] CategoryQueryParameters? queryParams = null)
         {
             IQueryable<Category> categories = _context.Categories;
-            categories = categories
-                .Skip(queryParams.Size * (queryParams.Page - 1))
-                .Take(queryParams.Size);
+
+            if (queryParams != null)
+            {
+                if (!string.IsNullOrEmpty(queryParams.CategoryNamePattern))
+                {
+                    categories = categories.Where(
+                        category => category.CategoryName.Contains(queryParams.CategoryNamePattern));
+                }
+
+                categories = categories
+                    .Skip(queryParams.Size * (queryParams.Page - 1))
+                    .Take(queryParams.Size);
+            }
 
             return await categories.ToListAsync();
         }

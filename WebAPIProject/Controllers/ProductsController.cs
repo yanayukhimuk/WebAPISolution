@@ -23,9 +23,16 @@ namespace WebAPIProject.Controllers
 
         // GET: api/Products
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts([FromQuery] QueryParameters queryParams)
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts([FromQuery] ProductQueryParameters queryParams)
         {
             IQueryable<Product> products = _context.Products;
+
+            if (queryParams is { MinPrice: { }, MaxPrice: { } })
+            {
+                products = products.Where(
+                    product => product.UnitPrice >= queryParams.MinPrice &&
+                               product.UnitPrice <= queryParams.MaxPrice);
+            }
             products = products
                 .Skip(queryParams.Size * (queryParams.Page - 1))
                 .Take(queryParams.Size);
