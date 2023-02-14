@@ -80,7 +80,7 @@ namespace WebAPIProject.Controllers
           _context.Categories.Add(category);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(typeof(GetCategory), new { id = category.CategoryId }, category);
+            return CreatedAtAction(nameof(GetCategory), new { id = category.CategoryId }, category);
         }
 
         // DELETE: api/Categories/5

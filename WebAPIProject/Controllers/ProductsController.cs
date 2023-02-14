@@ -80,7 +80,7 @@ namespace WebAPIProject.Controllers
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(typeof(GetProduct), new { id = product.ProductId }, product);
+            return CreatedAtAction(nameof(GetProduct), new { id = product.ProductId }, product);
         }
 
         // DELETE: api/Products/5
