@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WebAPIProject.Classes;
 using WebAPIProject.Models;
 
 namespace WebAPIProject.Controllers
@@ -22,9 +23,14 @@ namespace WebAPIProject.Controllers
 
         // GET: api/Products
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts([FromQuery] QueryParameters queryParams)
         {
-            return await _context.Products.ToListAsync();
+            IQueryable<Product> products = _context.Products;
+            products = products
+                .Skip(queryParams.Size * (queryParams.Page - 1))
+                .Take(queryParams.Size);
+
+            return await products.ToListAsync();
         }
 
         // GET: api/Products/5
